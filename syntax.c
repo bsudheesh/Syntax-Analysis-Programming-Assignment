@@ -37,6 +37,7 @@ int lexLen;
 int token;
 int nextToken;
 FILE *in_fp, *fopen();
+int foundError;
 
 /*used for reading multiple lines*/
 size_t len = 0;
@@ -79,11 +80,19 @@ int main() {
 	else {
 		while ((read = getline(&line, &len, in_fp)) != -1) {
 			printf("\n\n\n");
+			foundError = 1;
 			indexLine = 0;
 			getChar();
 			do {
 				lex();	
 				expr();
+				if(foundError == 0){
+					printf("Syntax in line %s\n", line);
+				}
+				else{
+					lex();
+					expr();
+				}
 			} while (line[indexLine] != '\n' && line[indexLine] != '\0');
 		}	
 	}
@@ -132,6 +141,8 @@ int lookup(char ch) {
 }
 
 void error(){
+	//printf("ERROR! in line %s\n", line);
+	foundError = 1;
 	//do nothing
 }
 
