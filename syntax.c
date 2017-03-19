@@ -26,6 +26,7 @@
 
 #include <stdio.h>
 #include <ctype.h>
+#include <stdlib.h>
 /* Global declarations */
 /* Variables */
 int charClass;
@@ -43,6 +44,10 @@ int lex();
 void factor();
 void expr();
 void term();
+size_t len = 0;
+ssize_t read;
+char * line = NULL;
+int indexLine;
 /* Character classes */
 #define LETTER 0
 #define DIGIT 1
@@ -63,14 +68,17 @@ void term();
 /* main driver */
 int main() {
 /* Open the input data file and process its contents */
-	if ((in_fp = fopen("front.in", "r")) == NULL)
+	if ((in_fp = fopen("front.txt", "r")) == NULL)
 		printf("ERROR - cannot open front.in \n");
 	else {
-		getChar();
-		do {
-			lex();	
-			expr();
-		} while (nextToken != EOF);
+		while ((read = getline(&line, &len, in_fp)) != -1) {
+			indexLine = 0;
+			getChar();
+			do {
+				lex();	
+				expr();
+			} while (line[indexLine != '\n' && line[indexLine] != '\0');
+		}	
 	}
 	return 0;
 }
@@ -214,7 +222,8 @@ void addChar() {
 /* getChar - a function to get the next character of
 input and determine its character class */
 void getChar() {
-	if ((nextChar = getc(in_fp)) != EOF) {
+	if (line[indexLine != '\n' && line[indexLine] != '\0') {
+		nextChar = line[indexLine ++];
 		if (isalpha(nextChar))
 			charClass = LETTER;
 		else if (isdigit(nextChar))
