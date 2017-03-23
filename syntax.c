@@ -141,8 +141,16 @@ int lookup(char ch) {
 }
 
 void error(){
+	char result;
+	if(line[errorElement] == ' '){
+		getNonBlank();
+		result = nextChar;
+	}
+	else{
+		result = line[errorElement];
+	}
+	printf("**** Error occurs at -> %c <- and the line is in line %s ****\n", result, line);
 
-	printf("Error occurs at %c and the line is in line %s\n", line[errorElement], line);
 	
 }
 
@@ -183,6 +191,7 @@ void factor() {
 
 void term() {
 	printf("Enter <term>\n");
+
 	/* Parse the first factor */
 	factor();
 	/* As long as the next token is * or /, get the
