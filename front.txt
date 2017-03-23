@@ -1,4 +1,4 @@
 x + y) / z
 (sum + 32) / 12
-a + * b
-a+b-c d
+a +* b
+a+b- c d
