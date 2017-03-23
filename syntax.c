@@ -27,6 +27,7 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <stdlib.h>
+#include <string.h>
 
 /* Global declarations */
 /* Variables */
@@ -83,17 +84,16 @@ int main() {
 			foundError = 1;
 			indexLine = 0;
 			getChar();
-			do {
-				lex();	
-				expr();
-				if(foundError == 0){
-					printf("Syntax in line %s\n", line);
-				}
-				else{
-					lex();
+			if(line != NULL){
+				do {
+					lex();	
 					expr();
-				}
-			} while (line[indexLine] != '\n' && line[indexLine] != '\0');
+			
+				} while (nextToken != EOF);
+			}
+			
+			
+			
 		}	
 	}
 	return 0;
@@ -141,7 +141,7 @@ int lookup(char ch) {
 }
 
 void error(){
-	//printf("ERROR! in line %s\n", line);
+	printf("ERROR! in line %s\n", line);
 	foundError = 1;
 	//do nothing
 }
