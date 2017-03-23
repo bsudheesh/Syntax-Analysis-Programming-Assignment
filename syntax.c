@@ -51,9 +51,19 @@ void term();
 
 /******************************************************/
 /* main driver */
-int main() {
+int main(int argc, char* argv[]) {
 /* Open the input data file and process its contents */
-	if ((in_fp = fopen("front.txt", "r")) == NULL)
+
+
+	if (argc != 2) {
+        printf("File name not given! \n");
+        exit(0);
+    }
+
+
+
+
+	if ((in_fp = fopen(argv[1], "r")) == NULL)
 		printf("ERROR - cannot open front.in \n");
 	else {
 		while ((read = getline(&line, &len, in_fp)) != -1) {
